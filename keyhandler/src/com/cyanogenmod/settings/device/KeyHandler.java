@@ -175,7 +175,6 @@ public class KeyHandler implements DeviceKeyHandler {
                     } catch (CameraAccessException e) {
                         // Ignore
                     }
-                    doHapticFeedback();
                 }
                 break;
             case GESTURE_LTR_SCANCODE:
@@ -196,7 +195,8 @@ public class KeyHandler implements DeviceKeyHandler {
         boolean isKeySupported = ArrayUtils.contains(sSupportedGestures, event.getScanCode());
         if (isKeySupported && !mEventHandler.hasMessages(GESTURE_REQUEST)) {
             if (event.getScanCode() == KEY_DOUBLE_TAP && !mPowerManager.isScreenOn()) {
-                mPowerManager.wakeUpWithProximityCheck(SystemClock.uptimeMillis());
+                mPowerManager.wakeUpWithProximityCheck(SystemClock.uptimeMillis(),
+                		"KeyHandlerWakeUp");
                 return true;
             }
             Message msg = getMessageForKeyEvent(event);
